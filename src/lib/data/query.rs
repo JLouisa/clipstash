@@ -20,3 +20,35 @@ pub async fn get_clip<M: Into<model::GetClip>>(
     .fetch_one(pool)
     .await?)
 }
+
+pub async fn new_clip<N: Into<model::NewClip>>(
+    model: N,
+    pool: &DatabasePool,
+) -> Result<model::Clip> {
+    let model = model.into();
+    sqlx::query!(
+        r#"INSERT INTO clips (
+            clip_id,
+            shortcode, 
+            content, 
+            title, 
+            posted, 
+            expires, 
+            password,
+            hits
+        ) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)"#,
+        model.clip_id,
+        model.shortcode,
+        model.content,
+        model.title,
+        model.posted,
+        model.expires,
+        model.password,
+        0
+    )
+    .execute(pool)
+    .await?;
+
+    get_clip(model.shortcode, pool).await
+}
