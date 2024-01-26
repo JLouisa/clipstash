@@ -1,5 +1,7 @@
 {
-    "rust-analyzer.server.extraEnv": {
-        "DATABASE_URL": "sqlite:data.db"
-    }
+  "rust-analyzer.server.extraEnv": {
+    "DATABASE_URL": "sqlite:data.db"
+  },
+  "cSpell.ignoreWords": ["shortcode"],
+  "rust-analyzer.linkedProjects": ["./Cargo.toml"]
 }

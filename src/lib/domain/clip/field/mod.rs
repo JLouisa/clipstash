@@ -1,23 +1,23 @@
 mod clip_id;
-pub use field::ClipId;
+pub use clip_id::ClipId;
 
-mod short_code;
-pub use field::ShortCode;
+mod shortcode;
+pub use shortcode::ShortCode;
 
 mod content;
-pub use field::Content;
+pub use content::Content;
 
 mod title;
-pub use field::Title;
+pub use title::Title;
 
 mod posted;
-pub use field::Posted;
+pub use posted::Posted;
 
 mod expires;
-pub use field::Expires;
+pub use expires::Expires;
 
 mod password;
-pub use field::Password;
+pub use password::Password;
 
 mod hits;
-pub use field::Hits;
+pub use hits::Hits;

@@ -15,9 +15,9 @@ pub enum ClipError {
     InvalidDate(String),
     #[error("Invalid parse date: {0}")]
     DateParse(#[from] chrono::ParseError),
-    #[error("Invalid parse Id: {0}")]
+    #[error("Id parse error: {0}")]
     Id(#[from] uuid::Error),
-    #[error("Invalid hits: {0}")]
+    #[error("Hits parse error: {0}")]
     Hits(#[from] std::num::TryFromIntError),
 }
 
