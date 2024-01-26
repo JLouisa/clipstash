@@ -5,6 +5,7 @@ use std::str::FromStr;
 use uuid::Uuid;
 
 pub mod model;
+pub mod query;
 
 #[derive(Debug, thiserror::Error)]
 pub enum DbError {
