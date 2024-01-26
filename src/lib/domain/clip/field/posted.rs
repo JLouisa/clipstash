@@ -3,10 +3,10 @@ use derive_more::Constructor;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize, Constructor)]
-pub struct Posted(Option<Time>);
+pub struct Posted(Time);
 
 impl Posted {
-    fn into_inner(self) -> Option<Time> {
+    fn into_inner(self) -> Time {
         self.0
     }
 }

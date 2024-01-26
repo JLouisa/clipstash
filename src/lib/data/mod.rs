@@ -4,6 +4,8 @@ use sqlx::Sqlite;
 use std::str::FromStr;
 use uuid::Uuid;
 
+pub mod model;
+
 #[derive(Debug, thiserror::Error)]
 pub enum DbError {
     #[error("Database error: {0}")]

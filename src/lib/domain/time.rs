@@ -13,7 +13,7 @@ impl Time {
     pub fn timestamp(&self) -> i64 {
         self.0.timestamp()
     }
-    pub fn from_naive_utc(datetime: NaiveDateTime) -> Self {
+    pub fn from_naive_ut(datetime: NaiveDateTime) -> Self {
         Time(DateTime::from_utc(datetime, Utc))
     }
 }

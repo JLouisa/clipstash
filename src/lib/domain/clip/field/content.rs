@@ -4,11 +4,11 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Content(String);
 impl Content {
-    pub fn new(content: String) -> Result<Self, ClipError> {
+    pub fn new(content: &str) -> Result<Self, ClipError> {
         if content.trim().is_empty() {
             Err(ClipError::EmptyContent)
         } else {
-            Ok(Self(content))
+            Ok(Self(content.to_owned()))
         }
     }
     pub fn into_inner(self) -> String {
