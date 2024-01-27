@@ -35,6 +35,13 @@ impl TryFrom<Clip> for crate::domain::Clip {
 pub struct GetClip {
     pub(in crate::data) shortcode: String,
 }
+impl From<crate::service::ask::GetClip> for GetClip {
+    fn from(req: crate::service::ask::GetClip) -> Self {
+        Self {
+            shortcode: req.shortcode.into_inner(),
+        }
+    }
+}
 impl From<ShortCode> for GetClip {
     fn from(shortcode: ShortCode) -> Self {
         GetClip {
@@ -53,15 +60,38 @@ pub struct NewClip {
     pub(in crate::data) shortcode: String,
     pub(in crate::data) content: String,
     pub(in crate::data) title: Option<String>,
-    pub(in crate::data) posted: i16,
-    pub(in crate::data) expires: Option<NaiveDateTime>,
+    pub(in crate::data) posted: i64,
+    pub(in crate::data) expires: Option<i64>,
     pub(in crate::data) password: Option<String>,
 }
-
+impl From<crate::service::ask::NewClip> for NewClip {
+    fn from(req: crate::service::ask::NewClip) -> Self {
+        Self {
+            clip_id: DbId::new().into(),
+            shortcode: String::default().into(),
+            content: req.content.into_inner(),
+            title: req.title.into_inner(),
+            posted: Utc::now().timestamp(),
+            expires: req.expires.into_inner().map(|t| t.timestamp()),
+            password: req.password.into_inner(),
+        }
+    }
+}
 pub struct UpdateClip {
     pub(in crate::data) shortcode: String,
     pub(in crate::data) content: String,
     pub(in crate::data) title: Option<String>,
     pub(in crate::data) expires: Option<i64>,
     pub(in crate::data) password: Option<String>,
+}
+impl From<crate::service::ask::UpdateClip> for UpdateClip {
+    fn from(req: crate::service::ask::UpdateClip) -> Self {
+        Self {
+            shortcode: String::default().into(),
+            content: req.content.into_inner(),
+            title: req.title.into_inner(),
+            expires: req.expires.into_inner().map(|t| t.timestamp()),
+            password: req.password.into_inner(),
+        }
+    }
 }

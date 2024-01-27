@@ -1,8 +1,11 @@
+pub mod action;
+pub mod ask;
+
 use crate::{ClipError, DbError};
 
 #[derive(Debug, thiserror::Error)]
 
-pub enum serviceError {
+pub enum ServiceError {
     #[error("Clip Error: {0}")]
     Clip(#[from] ClipError),
     #[error("Database Error: {0}")]
@@ -10,24 +13,24 @@ pub enum serviceError {
     #[error("Not Found")]
     NotFound,
     #[error("Permission Error")]
-    PermissionError,
+    PermissionError(String),
 }
-impl From<DbError> for serviceError {
+impl From<DbError> for ServiceError {
     fn from(err: DbError) -> Self {
         match err {
             DbError::DatabaseError(d) => match d {
-                sqlx::Error::RowNotFound => serviceError::NotFound,
+                sqlx::Error::RowNotFound => ServiceError::NotFound,
                 other => Self::Db(DbError::DatabaseError(other)),
             },
-            _ => serviceError::Db(err),
+            _ => ServiceError::Db(err),
         }
     }
 }
 
-impl From<sqlx::Error> for serviceError {
+impl From<sqlx::Error> for ServiceError {
     fn from(err: sqlx::Error) -> Self {
         match err {
-            sqlx::Error::RowNotFound => serviceError::NotFound,
+            sqlx::Error::RowNotFound => ServiceError::NotFound,
             other => Self::Db(DbError::DatabaseError(other)),
         }
     }
