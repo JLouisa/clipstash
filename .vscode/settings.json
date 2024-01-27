@@ -3,5 +3,9 @@
     "DATABASE_URL": "sqlite:data.db"
   },
   "cSpell.ignoreWords": ["shortcode"],
-  "rust-analyzer.linkedProjects": ["./Cargo.toml", "./Cargo.toml"]
+  "rust-analyzer.linkedProjects": [
+    "./Cargo.toml",
+    "./Cargo.toml",
+    "./Cargo.toml"
+  ]
 }

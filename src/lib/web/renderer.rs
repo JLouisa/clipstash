@@ -8,7 +8,7 @@ pub enum RenderError {
 
 pub struct Renderer<'a>(handlebars::Handlebars<'a>);
 impl<'a> Renderer<'a> {
-    pub fn new(templates_dir: std::path::PathBuf) -> Self {
+    pub fn new(templates_dir: &std::path::PathBuf) -> Self {
         let mut render = handlebars::Handlebars::new();
         render
             .register_templates_directory(".hbs", &templates_dir)
