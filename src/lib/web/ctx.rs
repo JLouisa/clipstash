@@ -7,7 +7,7 @@ pub trait PageContext {
     fn parent(&self) -> &str;
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Constructor)]
 pub struct Home {}
 impl Default for Home {
     fn default() -> Self {
@@ -16,11 +16,11 @@ impl Default for Home {
 }
 impl PageContext for Home {
     fn title(&self) -> &str {
-        "Home"
+        "Stash Your Clipboard!"
     }
 
     fn template_path(&self) -> &str {
-        "Stash Your Clipboard!"
+        "home"
     }
 
     fn parent(&self) -> &str {
@@ -34,11 +34,11 @@ pub struct ViewClip {
 }
 impl PageContext for ViewClip {
     fn title(&self) -> &str {
-        "clip"
+        "View Clip"
     }
 
     fn template_path(&self) -> &str {
-        "View Clip"
+        "clip"
     }
 
     fn parent(&self) -> &str {
@@ -52,11 +52,11 @@ pub struct PasswordRequired {
 }
 impl PageContext for PasswordRequired {
     fn title(&self) -> &str {
-        "clip_need_password"
+        "Password Required"
     }
 
     fn template_path(&self) -> &str {
-        "Password Required"
+        "clip_need_password"
     }
 
     fn parent(&self) -> &str {

@@ -2,7 +2,7 @@
   "rust-analyzer.server.extraEnv": {
     "DATABASE_URL": "sqlite:data.db"
   },
-  "cSpell.ignoreWords": ["shortcode"],
+  "cSpell.ignoreWords": ["clipstash", "shortcode", "structopt"],
   "rust-analyzer.linkedProjects": [
     "./Cargo.toml",
     "./Cargo.toml",

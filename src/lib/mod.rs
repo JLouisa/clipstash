@@ -18,11 +18,8 @@ pub fn rocket(config: RocketConfig) -> Rocket<Build> {
     rocket::build()
         .manage::<AppDatabase>(config.database)
         .manage::<Renderer>(config.renderer)
-        .mount("/", FileServer::from("static"))
         .mount("/", web::http::routes())
         .mount("/static", FileServer::from("static"))
-        // .attach(AppDatabase::fairing())
-        // .attach(Renderer::fairing())
         .register("/", web::http::catcher::catchers())
 }
 

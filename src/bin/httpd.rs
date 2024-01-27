@@ -6,7 +6,7 @@ use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "httpd")]
-struct opt {
+struct Opt {
     #[structopt(default_value = "sqlite://data.db")]
     connection_string: String,
     #[structopt(short, long, parse(from_os_str), default_value = "templates/")]
@@ -15,13 +15,14 @@ struct opt {
 
 fn main() {
     dotenv().ok();
-    let opt = opt::from_args();
+    let opt = Opt::from_args();
 
     let rt = tokio::runtime::Runtime::new().expect("Failed to create runtime");
 
-    let handle = rt.handle().clone();
+    let _handle = rt.handle().clone();
 
     rt.block_on(async move {
+        println!("This is the Template Directory {:?}", opt.template_dir);
         let renderer = Renderer::new(opt.template_dir);
 
         let database = AppDatabase::new(&opt.connection_string).await;
@@ -35,6 +36,5 @@ fn main() {
                 eprintln!("Failed to launch rocket: {}", e);
             }
         }
-        // .expect("Failed to launch rocket");
     });
 }
