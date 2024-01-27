@@ -8,12 +8,12 @@ pub enum RenderError {
 
 pub struct Renderer<'a>(handlebars::Handlebars<'a>);
 impl<'a> Renderer<'a> {
-    pub fn new(templates_dir: &std::path::PathBuf) -> Self {
-        let mut render = handlebars::Handlebars::new();
-        render
+    pub fn new(templates_dir: std::path::PathBuf) -> Self {
+        let mut renderer = handlebars::Handlebars::new();
+        renderer
             .register_templates_directory(".hbs", &templates_dir)
             .expect("Failed to register templates directory");
-        Self(render)
+        Self(renderer)
     }
 
     pub fn convert_to_value<S>(serializable: &S) -> serde_json::Value

@@ -24,7 +24,6 @@ pub struct Database<D: sqlx::Database>(sqlx::Pool<D>);
 impl Database<Sqlite> {
     pub async fn new(connection_str: &str) -> Self {
         let pool = sqlx::sqlite::SqlitePoolOptions::new()
-            .max_connections(5)
             .connect(connection_str)
             .await;
         match pool {

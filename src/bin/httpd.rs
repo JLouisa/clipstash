@@ -22,15 +22,19 @@ fn main() {
     let handle = rt.handle().clone();
 
     rt.block_on(async move {
-        let renderer = Renderer::new(&opt.template_dir);
+        let renderer = Renderer::new(opt.template_dir);
 
         let database = AppDatabase::new(&opt.connection_string).await;
 
         let config = clipstash::RocketConfig { renderer, database };
 
-        clipstash::rocket(config)
-            .launch()
-            .await
-            .expect("Failed to launch rocket");
+        let server = clipstash::rocket(config).launch().await;
+        match server {
+            Ok(_) => {}
+            Err(e) => {
+                eprintln!("Failed to launch rocket: {}", e);
+            }
+        }
+        // .expect("Failed to launch rocket");
     });
 }
