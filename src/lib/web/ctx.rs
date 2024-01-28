@@ -20,7 +20,7 @@ impl PageContext for Home {
     }
 
     fn template_path(&self) -> &str {
-        "home"
+        "test"
     }
 
     fn parent(&self) -> &str {

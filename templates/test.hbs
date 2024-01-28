@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<head>
+  <title>ClipStash - Stash Your Clipboard!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="description" content="Rust Project: ClipStash">
+  <link rel="stylesheet" href="/static/clipstash.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
+  <script src="https://kit.fontawesome.com/edf3c6579f.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400&family=Fira+Code:wght@400&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <section class="page-content">
+    <section class="section">
+  <div class="container">
+    <form class="box" method="post" action="/">
+      <div class="columns is-centered">
+        <div class="column flex is-two-thirds">
+          <article class="message is-info">
+            <div class="message-header">
+              <p>Clip</p>
+            </div>
+            <div class="message-body">
+              <textarea class="textarea fill-height" placeholder="Paste your content here"
+                name="content">{{clip.values.content.0}}</textarea>
+            </div>
+          </article>
+
+        </div>
+        <div class="column is-one-third">
+          <article class="message is-info">
+            <div class="message-header">
+              <p>Optional Goodies</p>
+            </div>
+            <div class="message-body">
+              <div class="field">
+                <label for="title" class="label">Title</label>
+                <div class="control has-icons-left">
+                  <input class="input" type="text" placeholder="Title" name="title" value="{{clip.values.title.0}}">
+                  <span class="icon is-left"><i class="fas fa-heading"></i></span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="expires" class="label">Expires</label>
+                <div class="control has-icons-left">
+                  <input class="input input-expires" type="text" placeholder="Expires" name="expires"
+                    value="{{clip.values.expires.0}}">
+                  <span class="icon is-left"><i class="fas fa-clock"></i></span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="password" class="label">Password Protected</label>
+                <div class="control has-icons-left">
+                  <input class="input" type="text" placeholder="Password" name="password">
+                  <span class="icon is-left"><i class="fas fa-lock"></i></span>
+                </div>
+              </div>
+
+            </div>
+          </article>
+          <div class="field">
+            <div class="level">
+              <div class="level-item has-text-centered">
+                <div class="control is-centered">
+                  <input type="submit" class="button is-link has-text-weight-bold" value="Stash it!">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+<script>
+  window.onload = function () {
+    TinyDatePicker('.input-expires', {
+      format(date) {
+        return date.toISOString().split('T')[0];
+      }
+    });
+  }
+</script>
+  </section>
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+</body>
+
+</html>

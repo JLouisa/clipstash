@@ -23,37 +23,60 @@ impl<'a> Renderer<'a> {
         serde_json::to_value(&serializable).expect("Failed to convert to value")
     }
 
+    // * Problem here why template is not rendering
     pub fn render<P>(&self, context: P, errors: &[&str]) -> String
     where
         P: ctx::PageContext + serde::Serialize + std::fmt::Debug,
     {
-        let mut data = Self::convert_to_value(&context);
-        if let Some(data) = data.as_object_mut() {
-            data.insert("_errors".into(), errors.into());
-            data.insert("_title".into(), context.title().into());
-            data.insert("_parent".into(), context.parent().into());
+        let mut value = Self::convert_to_value(&context);
+        if let Some(value) = value.as_object_mut() {
+            value.insert("_errors".into(), errors.into());
+            value.insert("_title".into(), context.title().into());
+            value.insert("_parent".into(), context.parent().into());
         }
-        self.do_render(context.template_path(), data)
+        println!("Path {:?}", context.template_path());
+        self.do_render(context.template_path(), value)
     }
 
-    pub fn render_with_data<P, D>(&self, context: P, value: (&str, D), errors: &[&str]) -> String
+    pub fn render_with_data<P, D>(&self, context: P, data: (&str, D), errors: &[&str]) -> String
     where
         P: ctx::PageContext + serde::Serialize + std::fmt::Debug,
         D: serde::Serialize + std::fmt::Debug,
     {
         use handlebars::to_json;
 
-        let mut data = Self::convert_to_value(&context);
-        if let Some(data) = data.as_object_mut() {
-            data.insert("_errors".into(), errors.into());
-            data.insert("_title".into(), context.title().into());
-            data.insert("_parent".into(), context.parent().into());
-            data.insert(value.0.into(), to_json(value.1));
+        let mut value = Self::convert_to_value(&context);
+        if let Some(value) = value.as_object_mut() {
+            value.insert("_errors".into(), errors.into());
+            value.insert("_title".into(), context.title().into());
+            value.insert("_parent".into(), context.parent().into());
+            value.insert(data.0.into(), to_json(data.1));
         }
-        self.do_render(context.template_path(), data)
+        self.do_render(context.template_path(), value)
     }
 
     pub fn do_render(&self, path: &str, ctx: serde_json::Value) -> String {
-        self.0.render(path, &ctx).expect("Failed to render")
+        println!("Rendering template: {:?}", path);
+        dbg!("Rendering template: {:?}", &ctx);
+        // let rendered_html = self.0.render(path, &ctx);
+        // println!("Rendered HTML: {:?}", rendered_html);
+        // rendered_html.expect("Failed to render")
+        let result = self.0.render(path, &ctx);
+
+        match result {
+            Ok(rendered_html) => {
+                println!("The Rendered HTML: {:?}", rendered_html);
+                rendered_html
+            }
+            Err(error) =>
+            // Handle the error here (e.g., log it or return an error page)
+            // For example, you can return an error message like this:
+            // Html(format!("Error rendering template: {}", error))
+            // Or, return an error page
+            // Html(render_error_page())
+            {
+                format!("{}", error)
+            } // Example function to render an error page
+        }
     }
 }
